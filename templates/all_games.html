@@ -1,0 +1,47 @@
+{% extends "basic.html" %}
+{% block all_games %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Game Store</title>
+</head>
+<body>
+<section class="featured py-5" style="margin-top: -30px;">
+    <div class="container">
+        <form action="{{ url_for('all_games') }}" method="get" class="mb-4">
+            <div class="form-group">
+                <label for="sort_by">Сортувати за:</label>
+                <select name="sort_by" id="sort_by" class="form-control">
+                    <option value="" selected>Не вибрано</option>
+                    <option value="price-asc">Ціні (за зростанням)</option>
+                    <option value="price-desc">Ціні (за спаданням)</option>
+                </select>
+            </div>
+            <button type="submit" class="btn button_buy mt-3">Застосувати</button>
+        </form>
+
+        <div class="row">
+            {% if games %}
+                {% for game in games %}
+                    {% if (not min_price or game.price >= min_price) and (not max_price or game.price <= max_price) %}
+                        <div class="col-md-4 mb-4">
+                            <div class="card">
+                                <img src="{{game.img}}" class="card-img-top">
+                                <div class="card-body">
+                                    <h5 class="card-title">{{game.name}}</h5>
+                                    <p class="card-text">Ціна: ${{game.price}} </p>
+                                    <a href="#" onclick="window.location.href='{{url_for('buy_game', game_name=game.name_for_url)}}'" class="btn button_buy">Докладніше</a>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                {% endfor %}
+            {% else %}
+                <p>No games found.</p>
+            {% endif %}
+        </div>
+    </div>
+</section>
+</body>
+</html>
+{% endblock all_games %}

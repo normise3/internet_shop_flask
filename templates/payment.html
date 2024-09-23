@@ -1,0 +1,115 @@
+{% extends "basic.html" %}
+{% block payment %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Оплата</title>
+    <style>
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+        }
+        h2 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #333;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ced4da;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+        .form-row {
+            display: flex;
+            flex-wrap: wrap;
+            margin: -10px;
+        }
+        .form-row .form-group {
+            flex: 1;
+            padding: 10px;
+        }
+        .form-row .form-group.col-md-6 {
+            max-width: 50%;
+        }
+        .btn-custom {
+            background-color: rgb(225, 108, 10);
+            color: #fff;
+            font-size: 1rem;
+            font-weight: 500;
+            padding: 8px 13px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            display: inline-block;
+            text-align: center;
+            text-decoration: none;
+        }
+        .btn-custom:hover {
+            background-color: rgb(240, 108, 10);
+            color: white;
+        }
+        .btn-custom:focus, .btn-custom:active {
+            box-shadow: none;
+            outline: none;
+        }
+        .error {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+<main>
+<div class="container">
+    <h2>Оплата</h2>
+    <form method="POST" action="{{ url_for('payment_page') }}">
+        {{ form.hidden_tag() }}
+        <div class="form-group">
+            {{ form.name.label }}
+            {{ form.name(class="form-control") }}
+            {% if form.name.errors %}
+                <div class="error">{{ form.name.errors[0] }}</div>
+            {% endif %}
+        </div>
+        <div class="form-group">
+            {{ form.card_number.label }}
+            {{ form.card_number(class="form-control") }}
+            {% if form.card_number.errors %}
+                <div class="error">{{ form.card_number.errors[0] }}</div>
+            {% endif %}
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                {{ form.expiry_date.label }}
+                {{ form.expiry_date(class="form-control") }}
+                {% if form.expiry_date.errors %}
+                    <div class="error">{{ form.expiry_date.errors[0] }}</div>
+                {% endif %}
+            </div>
+            <div class="form-group col-md-6">
+                {{ form.cvv.label }}
+                {{ form.cvv(class="form-control") }}
+                {% if form.cvv.errors %}
+                    <div class="error">{{ form.cvv.errors[0] }}</div>
+                {% endif %}
+            </div>
+        </div>
+        {{ form.submit(class="btn-custom") }}
+    </form>
+</div>
+</main>
+</body>
+</html>
+{% endblock payment %}
